@@ -1,0 +1,2 @@
+$events = Get-WinEvent -FilterHashtable @{LogName='Application';Level=2;StartTime=(Get-Date).AddMinutes(-5)} -MaxEvents 20 -ErrorAction SilentlyContinue
+$events | Where-Object { $_.Message -match 'cookwise|MAUI|.NET' } | Select-Object TimeCreated,Message

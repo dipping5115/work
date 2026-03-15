@@ -1,12 +1,97 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:cookwise.ViewModels"
              x:Class="cookwise.Views.HomePage"
-             Title="HomePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="CookWise">
+    <ContentPage.BindingContext>
+        <vm:HomeViewModel />
+    </ContentPage.BindingContext>
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <VerticalStackLayout Spacing="5">
+                <Label Text="CookWise" FontSize="32" FontAttributes="Bold" TextColor="#FF6B35"/>
+                <Label Text="精准化烹饪实验室" FontSize="16" TextColor="Gray"/>
+            </VerticalStackLayout>
+
+            <Frame BackgroundColor="#E8F5E9" Padding="15">
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="30">
+                    <VerticalStackLayout>
+                        <Label Text="Home" FontSize="10" TextColor="Green"/>
+                        <Label Text="$3-15" FontSize="14" FontAttributes="Bold" TextColor="Green"/>
+                    </VerticalStackLayout>
+                    <Label Text="VS" FontSize="20" TextColor="Gray" VerticalOptions="Center"/>
+                    <VerticalStackLayout>
+                        <Label Text="Delivery" FontSize="10" TextColor="Red"/>
+                        <Label Text="$12-25" FontSize="14" FontAttributes="Bold" TextColor="Red"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Frame>
+
+            <Label Text="快捷操作" FontSize="18" FontAttributes="Bold"/>
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                <Button Text="Search" 
+                        BackgroundColor="#FFF3E0" 
+                        TextColor="#E65100"
+                        Grid.Column="0"
+                        Command="{Binding SearchCommand}"/>
+                <Button Text="Notes" 
+                        BackgroundColor="#E3F2FD" 
+                        TextColor="#1565C0"
+                        Grid.Column="1"
+                        Command="{Binding NotesCommand}"/>
+                <Button Text="Profile" 
+                        BackgroundColor="#FCE4EC" 
+                        TextColor="#AD1457"
+                        Grid.Column="2"
+                        Command="{Binding ProfileCommand}"/>
+            </Grid>
+
+            <Label Text="精选菜谱" FontSize="18" FontAttributes="Bold"/>
+            <CollectionView ItemsSource="{Binding FeaturedRecipes}" HeightRequest="180">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="15"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="White" WidthRequest="150" Padding="10">
+                            <VerticalStackLayout>
+                                <Frame BackgroundColor="#FF6B35" HeightRequest="80">
+                                    <Label Text="Food" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Frame>
+                                <Label Text="{Binding Name}" FontSize="14" FontAttributes="Bold" Margin="0,8,0,2"/>
+                                <Label Text="{Binding Description}" FontSize="10" TextColor="Gray" MaxLines="2"/>
+                                <Label Text="{Binding EstimatedCost, StringFormat='${0:F2}'}" FontSize="10" TextColor="#FF6B35"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Text="全部菜谱" FontSize="18" FontAttributes="Bold"/>
+            <CollectionView ItemsSource="{Binding AllRecipes}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="White" Padding="15">
+                            <Grid ColumnDefinitions="60,*,Auto">
+                                <Frame BackgroundColor="#FFF3E0" WidthRequest="50" HeightRequest="50" Grid.Column="0">
+                                    <Label Text="Food" FontSize="12" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Frame>
+                                <VerticalStackLayout Grid.Column="1" Spacing="3" VerticalOptions="Center">
+                                    <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Description}" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding Servings, StringFormat='{0}人份'}" FontSize="10" TextColor="Gray"/>
+                                </VerticalStackLayout>
+                                <Label Text=">" FontSize="20" TextColor="Gray" Grid.Column="2" VerticalOptions="Center"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
